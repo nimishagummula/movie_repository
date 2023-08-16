@@ -8,7 +8,7 @@ let db = null;
 const initializeDBAndServer = async () => {
   try {
     db = await open({
-      fileName: dbPath,
+      filename: dbPath,
       driver: sqlite3.Database,
     });
     app.listen(3000, () => {
@@ -19,3 +19,8 @@ const initializeDBAndServer = async () => {
   }
 };
 initializeDBAndServer();
+app.get("/movies/",async(request,response)=>{
+    const getMoviesQuery = `SELECT * FROM movie;`;
+    const moviesArray = await db.get(getMoviesQuery);
+    response.send(moviesArray);
+});
